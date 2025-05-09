@@ -171,16 +171,10 @@ func (ch *Channel) runWriter(writerTerminate chan struct{}) error {
 		case what := <-ch.chWrite:
 			switch wh := what.(type) {
 			case message.Message:
-				err := ch.streamWriter.Write(wh)
-				if err != nil {
-					return err
-				}
+				ch.streamWriter.Write(wh)
 
 			case frame.Frame:
-				err := ch.frameWriter.Write(wh)
-				if err != nil {
-					return err
-				}
+				ch.frameWriter.Write(wh)
 			}
 
 		case <-writerTerminate:
